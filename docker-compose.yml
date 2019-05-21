@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  reverse-proxy:
+    build:
+      context: nginx/
+    volumes: 
+      - type: bind
+        source: ./nginx/nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+      - type: bind
+        source: /private/var/byappt/ssl
+        target: /etc/ssl
+        read_only: true
+    ports:
+      - "80:80"
+      - "443:443"
+  jenkins:
+    image: jenkins/jenkins
+    expose: 
+      - "8080"
+    volumes:
+    - type: volume
+      source: jenkins_home
+      target: /var/jenkins_home
+
+volumes:
+  jenkins_home:
