@@ -9,7 +9,7 @@ services:
         target: /etc/nginx/nginx.conf
         read_only: true
       - type: bind
-        source: /private/var/byappt/ssl
+        source: /etc/ssl
         target: /etc/ssl
         read_only: true
     ports:
