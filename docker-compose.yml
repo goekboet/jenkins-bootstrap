@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  reverse-proxy:
+  rpx:
     build:
       context: nginx/
     volumes: 
@@ -12,9 +12,12 @@ services:
         source: ./ssl
         target: /etc/ssl
         read_only: true
+    networks:
+      - byappt
     ports:
       - "80:80"
       - "443:443"
+
   jenkins:
     image: jenkins/jenkins
     expose: 
@@ -23,6 +26,35 @@ services:
     - type: volume
       source: jenkins_home
       target: /var/jenkins_home
+    networks:
+      - byappt
+
+  elasticsearch:
+    build:
+      context: elasticsearch/
+      args:
+        ELK_VERSION: $ELK_VERSION
+      labels:
+        co.elastic.logs/module: "elasticsearch"
+    volumes:
+      - type: bind
+        source: ./elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+    expose:
+      - "9200"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - byappt
 
 volumes:
   jenkins_home:
+  elasticsearch:
+
+networks:
+  byappt:
+    
