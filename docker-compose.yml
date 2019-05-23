@@ -17,6 +17,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - jenkins
 
   jenkins:
     image: jenkins/jenkins
