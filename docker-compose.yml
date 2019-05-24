@@ -94,7 +94,7 @@ services:
           target: /usr/share/filebeat/modules.d
           read_only: true
         - type: bind
-          source: /var/snap/docker/common/var-lib-docker
+          source: /var/snap/docker/common/var-lib-docker/containers
           target: /var/lib/docker/containers
           read_only: true
         - type: bind
