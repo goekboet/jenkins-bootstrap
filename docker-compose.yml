@@ -3,6 +3,10 @@ services:
   rpx:
     build:
       context: nginx/
+    labels:
+        co.elastic.logs/module: "nginx"
+        co.elastic.logs/fileset.stdout: "access"
+        co.elastic.logs/fileset.stderr: "error"
     volumes: 
       - type: bind
         source: ./nginx/nginx.conf
@@ -19,6 +23,7 @@ services:
       - "443:443"
     depends_on:
       - jenkins
+      - kibana
 
   jenkins:
     image: jenkins/jenkins
@@ -58,6 +63,8 @@ services:
       context: kibana/
       args:
         ELK_VERSION: $ELK_VERSION
+    labels:
+        co.elastic.logs/module: "kibana"
     volumes:
       - type: bind
         source: ./kibana/config
@@ -67,6 +74,37 @@ services:
       - "5601"
     networks:
       - byappt
+    depends_on:
+      - elasticsearch
+
+    filebeat:
+    user: root
+    build: 
+      context: filebeat/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    command: filebeat -e -strict.perms=false -E output.elasticsearch.hosts=["elasticsearch:9200"]
+    volumes: 
+      - type: bind
+        source: ./filebeat/filebeat.docker.yml
+        target: /usr/share/filebeat/filebeat.yml
+        read_only: true
+      - type: bind
+        source: ./filebeat/modules.d
+        target: /usr/share/filebeat/modules.d
+        read_only: true
+      - type: bind
+        source: /var/snap/docker/common/var-lib-docker
+        target: /var/lib/docker/containers
+        read_only: true
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+    networks:
+      - byappt
+    depends_on:
+      - elasticsearch
 
 volumes:
   jenkins_home:
