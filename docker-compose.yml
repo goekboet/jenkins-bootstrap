@@ -53,6 +53,21 @@ services:
     networks:
       - byappt
 
+  kibana:
+    build:
+      context: kibana/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - type: bind
+        source: ./kibana/config
+        target: /usr/share/kibana/config
+        read_only: true
+    expose:
+      - "5601"
+    networks:
+      - byappt
+
 volumes:
   jenkins_home:
   elasticsearch:
