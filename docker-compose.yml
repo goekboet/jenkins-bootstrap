@@ -27,6 +27,8 @@ services:
 
   jenkins:
     image: jenkins/jenkins
+    labels:
+            co.elastic.logs/processors.dissect.tokenizer:  "%{?year} %{?time} [id=%{id}]\t%{level}\t%{logger}#%{event}: %{message}"
     expose: 
       - "8080"
     volumes:
@@ -102,9 +104,9 @@ services:
         target: /var/run/docker.sock
         read_only: true
       - type: bind
-          source: /var/log
-          target: /var/log/host
-          read_only: true
+        source: /var/log
+        target: /var/log
+        read_only: true
       - type: volume
         source: filebeat
         target: /usr/share/filebeat/data/
