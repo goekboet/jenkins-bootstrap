@@ -101,6 +101,13 @@ services:
           source: /var/run/docker.sock
           target: /var/run/docker.sock
           read_only: true
+        - type: bind
+          source: /var/log
+          target: /var/log/host
+          read_only: true
+        - type: volume
+          source: filebeat
+          target: /usr/share/filebeat/data/
       networks:
         - byappt
       depends_on:
@@ -109,6 +116,7 @@ services:
 volumes:
   jenkins_home:
   elasticsearch:
+  filebeat:
 
 networks:
   byappt:
