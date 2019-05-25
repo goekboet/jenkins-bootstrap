@@ -79,22 +79,22 @@ services:
 
   filebeat:
     user: root
-    build:
-      context: filebeat/
+    build: 
+      context: filebeat
       args:
         ELK_VERSION: $ELK_VERSION
     command: filebeat -e -strict.perms=false -E output.elasticsearch.hosts=["elasticsearch:9200"]
     volumes: 
       - type: bind
         source: ./filebeat/filebeat.docker.yml
-        target: /usr/share/filebeat/filebeat.ym
+        target: /usr/share/filebeat/filebeat.yml
         read_only: true
       - type: bind
         source: ./filebeat/modules.d
-        target: /usr/share/filebeat/modules.
+        target: /usr/share/filebeat/modules.d
         read_only: true
       - type: bind
-        source: /var/snap/docker/common/var-lib-docker
+        source: /var/snap/docker/common/var-lib-docker/containers
         target: /var/lib/docker/containers
         read_only: true
       - type: bind
