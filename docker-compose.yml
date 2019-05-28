@@ -36,7 +36,7 @@ services:
       source: jenkins_home
       target: /var/jenkins_home
     - type: bind
-      source: ~/.ssh/id_rsa
+      source: /home/jenkins/.ssh/id_rsa
       target: /var/lib/jenkins/.ssh/id_rsa
     networks:
       - byappt
