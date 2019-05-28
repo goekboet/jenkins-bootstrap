@@ -28,13 +28,16 @@ services:
   jenkins:
     image: jenkins/jenkins
     labels:
-            co.elastic.logs/processors.dissect.tokenizer:  "%{?year} %{?time} [id=%{id}]\t%{level}\t%{logger}#%{event}: %{message}"
+      co.elastic.logs/processors.dissect.tokenizer:  "%{?year} %{?time} [id=%{id}]\t%{level}\t%{logger}#%{event}: %{message}"
     expose: 
       - "8080"
     volumes:
     - type: volume
       source: jenkins_home
       target: /var/jenkins_home
+    - type: bind
+      source: ~/.ssh/id_rsa
+      target: /var/lib/jenkins/.ssh/id_rsa
     networks:
       - byappt
 
