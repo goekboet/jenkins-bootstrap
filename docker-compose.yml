@@ -26,6 +26,8 @@ services:
       - kibana
 
   jenkins:
+    build:
+      context: jenkins/
     image: jenkins/jenkins
     labels:
       co.elastic.logs/processors.dissect.tokenizer:  "%{?year} %{?time} [id=%{id}]\t%{level}\t%{logger}#%{event}: %{message}"
@@ -36,8 +38,9 @@ services:
       source: jenkins_home
       target: /var/jenkins_home
     - type: bind
-      source: /home/jenkins/.ssh/id_rsa
-      target: /var/lib/jenkins/.ssh/id_rsa
+      source: /var/run/docker.sock
+      target: /var/run/docker.sock
+      read_only: true
     networks:
       - byappt
 
