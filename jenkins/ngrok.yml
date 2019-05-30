@@ -1,5 +1,6 @@
+authtoken: 5oPbqFSnNwZS5YPvrcpsF_7KqQgdEw1tubFUU5iDanR
 tunnels:
-  github:
-    proto: http
+  jenkins:
     addr: 443
-    hostname: jenkins.byappt
+    proto: tls
+    subdomain: jenkins.byappt
