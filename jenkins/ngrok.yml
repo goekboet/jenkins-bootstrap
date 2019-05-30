@@ -1,0 +1,5 @@
+tunnels:
+  github:
+    proto: http
+    addr: 443
+    hostname: jenkins.byappt
