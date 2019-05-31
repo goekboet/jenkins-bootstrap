@@ -1,6 +1,0 @@
-authtoken: 5oPbqFSnNwZS5YPvrcpsF_7KqQgdEw1tubFUU5iDanR
-tunnels:
-  jenkins:
-    addr: 443
-    proto: tls
-    subdomain: jenkins.byappt
