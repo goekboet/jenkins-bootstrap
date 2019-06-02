@@ -21,9 +21,8 @@ services:
 
 volumes:
   jenkins_home:
-  elasticsearch:
-  filebeat:
 
 networks:
   jenkins:
+    external: true
     
