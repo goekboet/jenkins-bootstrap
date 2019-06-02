@@ -2,7 +2,7 @@ version: '3.7'
 services:
   jenkins:
     build:
-      context: jenkins/
+      context: .
     image: jenkins/jenkins
     labels:
       co.elastic.logs/processors.dissect.tokenizer:  "%{?year} %{?time} [id=%{id}]\t%{level}\t%{logger}#%{event}: %{message}"
